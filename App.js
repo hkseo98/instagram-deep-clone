@@ -8,6 +8,7 @@ import Landing from "./components/auth/Landing";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import MainScreen from "./components/Main";
+import Save from "./components/main/Save";
 
 import firebase from "firebase/app";
 import { Provider } from "react-redux";
@@ -37,7 +38,7 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(promiseMiddleware, thunk))
 );
 
-export default function App() {
+export default function App(props) {
   const [loaded, setLoaded] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
 
@@ -82,6 +83,12 @@ export default function App() {
             name="MainScreen"
             component={MainScreen}
             options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Save"
+            component={Save}
+            options={{ headerShown: false }}
+            navigation={props.navigation}
           />
         </Stack.Navigator>
       </NavigationContainer>

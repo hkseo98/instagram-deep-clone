@@ -11,7 +11,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const Tab = createBottomTabNavigator();
 
-const Main = () => {
+const Main = ({ navigation }) => {
   const dispatch = useDispatch();
   const [user, setUser] = useState(null);
   useEffect(() => {
@@ -37,13 +37,9 @@ const Main = () => {
         }}
       />
       <Tab.Screen
-        listeners={({ navigation }) => ({
-          tabPress: (evemt) => {
-            event.preventDefault();
-          },
-        })}
         name="Add"
         component={Add}
+        navigation={navigation}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Icon name="plus-box" color={color} size={26} />
