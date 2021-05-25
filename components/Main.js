@@ -1,7 +1,7 @@
 //import liraries
 import React, { Component, useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { fetchUser } from "../redux/actions/index";
+import { fetchUser, fetchUserPosts } from "../redux/actions/index";
 import { useDispatch, useSelector } from "react-redux";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Feed from "./main/Feed";
@@ -14,10 +14,18 @@ const Tab = createBottomTabNavigator();
 const Main = ({ navigation }) => {
   const dispatch = useDispatch();
   const [user, setUser] = useState(null);
+  const [posts, setPosts] = useState([]);
+
   useEffect(() => {
     dispatch(fetchUser()).then((res) => {
       setTimeout(() => {
         setUser(res.payload);
+      }, 20);
+    });
+
+    dispatch(fetchUserPosts()).then((res) => {
+      setTimeout(() => {
+        setPosts(res.payload);
       }, 20);
     });
   }, []);

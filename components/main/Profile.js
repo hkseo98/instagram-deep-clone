@@ -1,12 +1,34 @@
 //import liraries
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Image, FlatList } from "react-native";
+import { useSelector, shallowEqual } from "react-redux";
 
 // create a component
 const Profile = () => {
+  const user = useSelector(
+    (state) => state.userState.currentUser,
+    shallowEqual
+  );
+  const posts = useSelector((state) => state.userState.posts, shallowEqual);
+  // console.log(posts[0].downloadURL);
   return (
     <View style={styles.container}>
-      <Text>Profile</Text>
+      <View style={styles.containerInfo}>
+        <Text>{user.name}</Text>
+        <Text>{user.email}</Text>
+      </View>
+      <View style={styles.containerGallery}>
+        <FlatList
+          numColumns={3}
+          horizontal={false}
+          data={posts}
+          renderItem={({ item }) => (
+            <View style={styles.containerImage}>
+              <Image style={styles.image} source={{ uri: item.downloadURL }} />
+            </View>
+          )}
+        />
+      </View>
     </View>
   );
 };
@@ -15,9 +37,19 @@ const Profile = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#2c3e50",
+  },
+  containerInfo: {
+    margin: 20,
+  },
+  containerGallery: {
+    flex: 1,
+  },
+  image: {
+    flex: 1,
+    aspectRatio: 1 / 1,
+  },
+  containerImage: {
+    flex: 1 / 3,
   },
 });
 
