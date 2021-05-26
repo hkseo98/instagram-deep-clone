@@ -15,19 +15,13 @@ export const users = (state = initialState, action) => {
       return {
         ...state,
         users: [...state.users, action.payload],
+        userLoaded: state.users.length + 1,
       };
     case DELETE_FOLLOWING:
       return {
         ...state,
         users: [],
-      };
-    case USERS_POSTS_STATE_CHANGE:
-      return {
-        ...state,
-        userLoaded: state.userLoaded + 1,
-        users: state.users.map((user) =>
-          user.uid === action.uid ? { ...users, posts: action.posts } : user
-        ),
+        userLoaded: state.users.length - 1,
       };
     default:
       return state;

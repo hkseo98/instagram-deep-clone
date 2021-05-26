@@ -1,19 +1,45 @@
 //import liraries
-import React, { Component } from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import React, { Component, useEffect, useState } from "react";
+import { View, Text, StyleSheet, Image, FlatList } from "react-native";
+import { useSelector } from "react-redux";
 
 // create a component
 const Feed = () => {
+  const [posts, setPosts] = useState([]);
+  let userLoaded = useSelector((state) => state.usersState.userLoaded);
+  let users = useSelector((state) => state.usersState.users);
+  useEffect(() => {
+    let posts = [];
+    for (let i = 0; i < users.length; i++) {
+      for (let j = 0; j < users[i].posts.length; j++) {
+        let user = users[i].user;
+        let post = users[i].posts[j];
+        posts.push({ user, post });
+      }
+    }
+
+    posts.sort((x, y) => x.post.creation.seconds - y.post.creation.seconds);
+    setPosts(posts);
+  }, [userLoaded]);
+
   return (
     <View style={styles.container}>
-      <Text>Feed</Text>
-      <Image
-        style={{ flex: 1 }}
-        source={{
-          uri:
-            "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTAzMTRfMTAx%2FMDAxNjE1Njc5Mzk1OTcz.iBvH1vfI6y1H1hsNtDeT3VhyUNjioLisrqsw_3IAihgg.5aEfmqbFW1j3YwlLfbz9HW890MHHiiu3X42bdI0ZoeMg.JPEG.yhjhdh0828%2FKakaoTalk_20210314_082231928_04.jpg&type=a340",
-        }}
-      />
+      <View style={styles.containerGallery}>
+        <FlatList
+          numColumns={1}
+          horizontal={false}
+          data={posts}
+          renderItem={({ item }) => (
+            <View style={styles.containerImage}>
+              <Text style={styles.container}>{item.user.user.name}</Text>
+              <Image
+                style={styles.image}
+                source={{ uri: item.post.downloadURL }}
+              />
+            </View>
+          )}
+        />
+      </View>
     </View>
   );
 };
@@ -22,9 +48,19 @@ const Feed = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#2c3e50",
+  },
+  containerInfo: {
+    margin: 20,
+  },
+  containerGallery: {
+    flex: 1,
+  },
+  image: {
+    flex: 1,
+    aspectRatio: 1 / 1,
+  },
+  containerImage: {
+    flex: 1 / 3,
   },
 });
 
