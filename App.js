@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Button } from "react-native";
 import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -80,9 +80,26 @@ export default function App(props) {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
-            name="MainScreen"
+            name="Instagram"
             component={MainScreen}
-            options={{ headerShown: false }}
+            options={({ navigation }) => ({
+              headerRight: () => (
+                <Button
+                  title="Logout"
+                  onPress={() => {
+                    firebase
+                      .auth()
+                      .signOut()
+                      .then(() => {
+                        navigation.navigate("Landing");
+                      })
+                      .catch((error) => {
+                        // An error happened.
+                      });
+                  }}
+                />
+              ),
+            })}
           />
           <Stack.Screen
             name="Save"

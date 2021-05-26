@@ -56,6 +56,7 @@ const Save = (props) => {
         onChangeText={(caption) => setCaption(caption)}
       />
       <Button title="Save" onPress={() => uploadImage()} />
+      <Button title="Back" onPress={() => props.navigation.popToTop()} />
     </View>
   );
 };

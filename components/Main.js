@@ -1,13 +1,20 @@
 //import liraries
 import React, { Component, useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { fetchUser, fetchUserPosts } from "../redux/actions/index";
+import {
+  fetchUser,
+  fetchUserPosts,
+  fetchUserFollowing,
+  fetchUsersData,
+} from "../redux/actions/index";
 import { useDispatch, useSelector } from "react-redux";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Feed from "./main/Feed";
 import Add from "./main/Add";
 import Profile from "./main/Profile";
+import Search from "./main/Search";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import firebase from "firebase";
 
 const Tab = createBottomTabNavigator();
 
@@ -15,6 +22,7 @@ const Main = ({ navigation }) => {
   const dispatch = useDispatch();
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState([]);
+  let following = useSelector((state) => state.userState.following);
 
   useEffect(() => {
     dispatch(fetchUser()).then((res) => {
@@ -28,6 +36,23 @@ const Main = ({ navigation }) => {
         setPosts(res.payload);
       }, 20);
     });
+
+    dispatch(fetchUserFollowing()).then((res) => {
+      setTimeout(() => {}, 3000);
+    });
+
+    firebase
+      .firestore()
+      .collection("following")
+      .doc(firebase.auth().currentUser.uid)
+      .collection("userFollowing")
+      .get()
+      .then((snapshot) => {
+        let following = snapshot.docs.map((doc) => {
+          const id = doc.id;
+          dispatch(fetchUsersData(id));
+        });
+      });
   }, []);
 
   return (
@@ -41,6 +66,16 @@ const Main = ({ navigation }) => {
         options={{
           tabBarIcon: ({ color, size }) => (
             <Icon name="home" color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Search"
+        component={Search}
+        navigation={navigation}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="magnify" color={color} size={26} />
           ),
         }}
       />
