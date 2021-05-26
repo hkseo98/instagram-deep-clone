@@ -76,25 +76,28 @@ export const fetchUsersData = async (uid) => {
     .then((snapshot) => {
       let user = snapshot.data();
       user.uid = snapshot.id;
-      let post = firebase
-        .firestore()
-        .collection("post")
-        .doc(uid)
-        .collection("userPosts")
-        .orderBy("creation", "asc") // 정렬 기준, 정렬 방식 ascend, descend
-        .get()
-        .then((snapshot) => {
-          snapshot.docs.map((doc) => {
-            const data = doc.data();
-            console.log(data);
-            return { ...data };
-          });
-        });
-      return { user, post };
+      return { user };
+    });
+  let post = [];
+  const posts = await firebase
+    .firestore()
+    .collection("post")
+    .doc(uid)
+    .collection("userPosts")
+    .orderBy("creation", "asc")
+    .get()
+    .then((snapshot) => {
+      snapshot.docs.map((doc) => {
+        const data = doc.data();
+        console.log(data);
+        post.push(data);
+      });
+      console.log(post);
+      return post;
     });
   return {
     type: USERS_DATA_STATE_CHANGE,
-    payload: user,
+    payload: { user, posts },
   };
 };
 
