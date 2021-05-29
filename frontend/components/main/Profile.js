@@ -1,6 +1,14 @@
 //import liraries
 import React, { Component, useState, useEffect } from "react";
-import { View, Text, StyleSheet, Image, FlatList, Button } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  FlatList,
+  Button,
+  TouchableHighlight,
+} from "react-native";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import firebase from "firebase";
 import { DELETE_FOLLOWING } from "../../redux/constants/index";
@@ -14,7 +22,7 @@ import {
 const Profile = (props) => {
   const dispatch = useDispatch();
   const [userPosts, setUserPosts] = useState([]);
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState(null);
   const [following, setFollowing] = useState(false);
 
   const currentUser = useSelector(
@@ -32,13 +40,13 @@ const Profile = (props) => {
   }
 
   const posts = useSelector((state) => state.userState.posts, shallowEqual);
-  // console.log(posts[0].downloadURL);
 
   useEffect(() => {
-    console.log(searchUserEmail);
-    console.log(currentUser.email);
-
-    if (searchUserEmail === currentUser.email || searchUserEmail === "") {
+    if (
+      searchUserEmail === currentUser.email ||
+      searchUserEmail === "" ||
+      props.currentUser
+    ) {
       setUser(currentUser);
       setUserPosts(posts);
     } else {
@@ -69,7 +77,6 @@ const Profile = (props) => {
           });
           setUserPosts(posts);
         });
-      console.log(followingState);
       setFollowing(false);
       followingState.map((id) => {
         if (id === props.route.params.uid) {
@@ -90,7 +97,6 @@ const Profile = (props) => {
     setFollowing(!following);
     dispatch(fetchUserFollowing());
     dispatch(fetchUsersData(props.route.params.uid));
-    // dispatch(fetchUsersFollowingPosts(followingState[i]));
   };
 
   const onUnfollow = () => {
@@ -107,13 +113,15 @@ const Profile = (props) => {
     for (let i = 0; i < followingState.length; i++) {
       fetchUsersData(followingState[i]);
     }
-    // dispatch(fetchUsersFollowingPosts(followingState[i]));
+  };
+
+  const onImagePress = (user, post, uid) => {
+    props.navigation.navigate("Photo", { user, post, uid });
   };
 
   if (user === null) {
     return <View />;
   }
-
   return (
     <View style={styles.container}>
       <View style={styles.containerInfo}>
@@ -128,22 +136,26 @@ const Profile = (props) => {
             )}
           </View>
         ) : null}
-        <Image
-          source={{
-            uri:
-              "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTAzMTRfMTAx%2FMDAxNjE1Njc5Mzk1OTcz.iBvH1vfI6y1H1hsNtDeT3VhyUNjioLisrqsw_3IAihgg.5aEfmqbFW1j3YwlLfbz9HW890MHHiiu3X42bdI0ZoeMg.JPEG.yhjhdh0828%2FKakaoTalk_20210314_082231928_04.jpg&type=a340",
-          }}
-        />
       </View>
       <View style={styles.containerGallery}>
         <FlatList
           numColumns={3}
           horizontal={false}
           data={userPosts}
-          renderItem={({ item }) => (
+          renderItem={({ item, index }) => (
             <View style={styles.containerImage}>
-              {/* <Text>{item.downloadURL}</Text> */}
-              <Image style={styles.image} source={{ uri: item.downloadURL }} />
+              <TouchableHighlight
+                onPress={() =>
+                  props.route.params
+                    ? onImagePress(user, item, props.route.params.uid)
+                    : onImagePress(user, item)
+                }
+              >
+                <Image
+                  style={styles.image}
+                  source={{ uri: item.downloadURL }}
+                />
+              </TouchableHighlight>
             </View>
           )}
         />
@@ -156,6 +168,7 @@ const Profile = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#2c3e50",
   },
   containerInfo: {
     margin: 20,

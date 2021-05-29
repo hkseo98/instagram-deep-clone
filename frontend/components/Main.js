@@ -6,6 +6,8 @@ import {
   fetchUserPosts,
   fetchUserFollowing,
   fetchUsersData,
+  clearData,
+  fetchAllUser,
 } from "../redux/actions/index";
 import { useDispatch, useSelector } from "react-redux";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -25,6 +27,10 @@ const Main = ({ navigation }) => {
   let following = useSelector((state) => state.userState.following);
 
   useEffect(() => {
+    dispatch(clearData());
+
+    dispatch(fetchAllUser());
+
     dispatch(fetchUser()).then((res) => {
       setTimeout(() => {
         setUser(res.payload);
@@ -48,7 +54,7 @@ const Main = ({ navigation }) => {
       .collection("userFollowing")
       .get()
       .then((snapshot) => {
-        let following = snapshot.docs.map((doc) => {
+        snapshot.docs.map((doc) => {
           const id = doc.id;
           dispatch(fetchUsersData(id));
         });
@@ -63,6 +69,7 @@ const Main = ({ navigation }) => {
       <Tab.Screen
         name="Feed"
         component={Feed}
+        navigation={navigation}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Icon name="home" color={color} size={26} />
@@ -92,6 +99,7 @@ const Main = ({ navigation }) => {
       <Tab.Screen
         name="Profile"
         component={Profile}
+        navigation={navigation}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Icon name="account-circle" color={color} size={26} />

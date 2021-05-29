@@ -9,6 +9,8 @@ import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import MainScreen from "./components/Main";
 import Save from "./components/main/Save";
+import Comment from "./components/main/Comment";
+import Photo from "./components/main/Photo";
 
 import firebase from "firebase/app";
 import { Provider } from "react-redux";
@@ -105,6 +107,16 @@ export default function App(props) {
             name="Save"
             component={Save}
             options={{ headerShown: false }}
+            navigation={props.navigation}
+          />
+          <Stack.Screen
+            name="Comment"
+            component={Comment}
+            navigation={props.navigation}
+          />
+          <Stack.Screen
+            name="Photo"
+            component={Photo}
             navigation={props.navigation}
           />
         </Stack.Navigator>

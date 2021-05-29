@@ -41,10 +41,11 @@ const Save = (props) => {
       .add({
         downloadURL,
         caption: Caption,
+        likesCount: 0,
         creation: firebase.firestore.FieldValue.serverTimestamp(),
       })
       .then(function () {
-        props.navigation.popToTop(); // App 컴포넌트에서부터 차례로 navigation을 porps로 전달해주어야 사용 가능!
+        props.navigation.goBack(); // App 컴포넌트에서부터 차례로 navigation을 porps로 전달해주어야 사용 가능!
       });
   };
 

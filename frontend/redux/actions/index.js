@@ -8,7 +8,16 @@ import {
   USER_FOLLOWING_STATE_CHANGE,
   USERS_POSTS_STATE_CHANGE,
   USERS_DATA_STATE_CHANGE,
+  CLEAR_DATA,
+  FETCH_ALL_USER,
+  USER_LIKES_STATE_CHANGE,
 } from "../constants/index";
+
+export const clearData = () => {
+  return {
+    type: CLEAR_DATA,
+  };
+};
 
 export const fetchUser = async () => {
   const user = await firebase
@@ -74,9 +83,13 @@ export const fetchUsersData = async (uid) => {
     .doc(uid)
     .get()
     .then((snapshot) => {
-      let user = snapshot.data();
-      user.uid = snapshot.id;
-      return { user };
+      if (snapshot.exists) {
+        let user = snapshot.data();
+        user.uid = snapshot.id;
+        return user;
+      } else {
+        console.log("does not exist");
+      }
     });
   let post = [];
   const posts = await firebase
@@ -89,10 +102,9 @@ export const fetchUsersData = async (uid) => {
     .then((snapshot) => {
       snapshot.docs.map((doc) => {
         const data = doc.data();
-        console.log(data);
-        post.push(data);
+        const postId = doc.id;
+        post.push({ data, postId });
       });
-      console.log(post);
       return post;
     });
   return {
@@ -101,24 +113,44 @@ export const fetchUsersData = async (uid) => {
   };
 };
 
-// export const fetchUsersFollowingPosts = async (uid) => {
-//   const users = useSelector((state) => state.usersState.users);
-//   const snapshot = await firebase
-//     .firestore()
-//     .collection("post")
-//     .doc(uid)
-//     .collection("userPosts")
-//     .orderBy("creation", "asc") // 정렬 기준, 정렬 방식 ascend, descend
-//     .get()
-//     .then((snapshot) => {
-//       const uid = snapshot.query.EP.path.segmants[1];
-//       console.log({ snapshot, uid });
-//       const user = users.find((el) => el.uid === uid);
-//       let posts = snapshot.docs.map((doc) => {
-//         const data = doc.data();
-//         const id = doc.id;
-//         return { id, ...data, user };
-//       });
-//       Dispatch({ type: USERS_POSTS_STATE_CHANGE, posts, uid });
-//     });
-// };
+export const fetchAllUser = async () => {
+  const users = await firebase
+    .firestore()
+    .collection("users")
+    .get()
+    .then((snapshot) => {
+      let users = snapshot.docs.map((doc) => {
+        const data = doc.data();
+        const uid = doc.id;
+        return { uid, ...data };
+      });
+      return users;
+    });
+  return {
+    type: FETCH_ALL_USER,
+    payload: { users },
+  };
+};
+
+export const fetchUsersFollowingLikes = async (uid, postId) => {
+  let currentUserLike = false;
+  await firebase
+    .firestore()
+    .collection("post")
+    .doc(uid)
+    .collection("userPosts")
+    .doc(postId)
+    .collection("likes")
+    .get()
+    .then((snapshot) => {
+      for (let i = 0; i < snapshot.docs.length; i++) {
+        if (snapshot.docs[i].id === firebase.auth().currentUser.uid) {
+          currentUserLike = true;
+        }
+      }
+    });
+  return {
+    type: USER_LIKES_STATE_CHANGE,
+    payload: { currentUserLike, postId, uid },
+  };
+};
