@@ -8,10 +8,8 @@ react-native Instagram clone
 변형한 점: 본 영상에서는 redux 구현 시에 hook을 사용하지 않습니다. 저는 react-redux의 useDispatch(), useSelector()를 사용하여 좀더 간단한 구현을 시도해 보았습니다. 
 또한 본 영상에서는 나오지 않는 댓글 삭제 기능, 게시물별 페이지 기능을 추가하였습니다. 
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4f2f7fbc-d7d1-487d-bd18-451ef942fbdc/_2021-05-31__1.51.58.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4f2f7fbc-d7d1-487d-bd18-451ef942fbdc/_2021-05-31__1.51.58.png)
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c7689e8c-9a3e-4001-b91e-cc20cec877c2/KakaoTalk_Photo_2021-05-31-01-55-49.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c7689e8c-9a3e-4001-b91e-cc20cec877c2/KakaoTalk_Photo_2021-05-31-01-55-49.png)
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/59e14a6f-3cdb-4758-877e-77b32d6aa4bb/_2021-05-31__1.57.11.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/59e14a6f-3cdb-4758-877e-77b32d6aa4bb/_2021-05-31__1.57.11.png)
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9b3b2752-c30a-4425-935d-05c18bdc8246/_2021-05-31__1.58.53.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9b3b2752-c30a-4425-935d-05c18bdc8246/_2021-05-31__1.58.53.png)
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/76d9fc05-0842-4b2c-8448-9aa201d40452/_2021-05-31__2.00.07.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/76d9fc05-0842-4b2c-8448-9aa201d40452/_2021-05-31__2.00.07.png)
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0777f0c6-1564-41b2-8534-94cf9fb65938/_2021-05-31__2.00.41.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0777f0c6-1564-41b2-8534-94cf9fb65938/_2021-05-31__2.00.41.png)
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4847381a-0ca3-451e-9bbb-8e7688c35a1f/_2021-05-31__2.01.22.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4847381a-0ca3-451e-9bbb-8e7688c35a1f/_2021-05-31__2.01.22.png)
+![KakaoTalk_Photo_2021-05-31-02-11-55](https://user-images.githubusercontent.com/69430175/120113622-4160be80-c1b6-11eb-9998-a1a6ea1fa2a8.png)
+![KakaoTalk_Photo_2021-05-31-02-12-04](https://user-images.githubusercontent.com/69430175/120113624-432a8200-c1b6-11eb-95e6-a379db673f87.png)
+![KakaoTalk_Photo_2021-05-31-02-12-11](https://user-images.githubusercontent.com/69430175/120113626-445baf00-c1b6-11eb-8241-d0ddaf9db330.png)
+![KakaoTalk_Photo_2021-05-31-01-55-49](https://user-images.githubusercontent.com/69430175/120113633-4cb3ea00-c1b6-11eb-9bff-ac77f4f34ff9.png)
+![KakaoTalk_Photo_2021-05-31-02-11-27](https://user-images.githubusercontent.com/69430175/120113634-4de51700-c1b6-11eb-8863-58af62c306a7.png)
