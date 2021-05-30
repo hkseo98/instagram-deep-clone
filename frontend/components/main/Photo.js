@@ -115,32 +115,32 @@ const Photo = (props) => {
               console.log("failed deleting");
             });
 
-          //   firebase
-          //     .firestore()
-          //     .collection("post")
-          //     .doc(uid)
-          //     .collection("userPosts")
-          //     .doc(post.id);
-          //     .collection('comments')
-          //     .doc
-          //     .delete()
+          // firebase
+          //   .firestore()
+          //   .collection("post")
+          //   .doc(uid)
+          //   .collection("userPosts")
+          //   .doc(post.id);
+          //   .collection('comments')
+          //   .doc
+          //   .delete()
 
-          //   firebase
-          //     .firestore()
-          //     .collection("post")
-          //     .doc(uid)
-          //     .collection("userPosts")
-          //     .doc(post.id);
-          //     .collection('likes')
-          //     .delete()
+          // firebase
+          //   .firestore()
+          //   .collection("post")
+          //   .doc(uid)
+          //   .collection("userPosts")
+          //   .doc(post.id);
+          //   .collection('likes')
+          //   .delete()
 
-          //   firebase
-          //     .firestore()
-          //     .collection("post")
-          //     .doc(uid)
-          //     .collection("userPosts")
-          //     .doc(post.id)
-          //     .delete();
+          // firebase
+          //   .firestore()
+          //   .collection("post")
+          //   .doc(uid)
+          //   .collection("userPosts")
+          //   .doc(post.id)
+          //   .delete();
 
           props.navigation.navigate("Profile");
         },
